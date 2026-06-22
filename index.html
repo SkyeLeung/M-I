@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微免期末考古題詳解</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg2: #f6f5f2;
+    --bg3: #eeede9;
+    --text: #1a1a1a;
+    --text2: #666;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --green-bg: #eaf3de;
+    --green-border: #639922;
+    --green-text: #27500a;
+    --red-bg: #fcebeb;
+    --red-border: #e24b4a;
+    --red-text: #791f1f;
+    --blue-bg: #e6f1fb;
+    --blue-text: #0c447c;
+    --amber-bg: #faeeda;
+    --amber-text: #633806;
+    --purple-bg: #eeedfe;
+    --purple-text: #3c3489;
+    --teal-bg: #e1f5ee;
+    --teal-text: #085041;
+    --pink-bg: #fbeaf0;
+    --pink-text: #72243e;
+    --gray-bg: #f1efe8;
+    --gray-text: #444441;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2b;
+      --text: #f0efe9;
+      --text2: #999;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.2);
+      --green-bg: #173404;
+      --green-border: #3b6d11;
+      --green-text: #c0dd97;
+      --red-bg: #501313;
+      --red-border: #a32d2d;
+      --red-text: #f7c1c1;
+      --blue-bg: #042c53;
+      --blue-text: #b5d4f4;
+      --amber-bg: #412402;
+      --amber-text: #fac775;
+      --purple-bg: #26215c;
+      --purple-text: #cecbf6;
+      --teal-bg: #04342c;
+      --teal-text: #9fe1cb;
+      --pink-bg: #4b1528;
+      --pink-text: #f4c0d1;
+      --gray-bg: #2c2c2a;
+      --gray-text: #d3d1c7;
+    }
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg2);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  .top-bar {
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 1.5rem;
+  }
+  .top-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    flex-wrap: wrap;
+  }
+  .site-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .site-title span { font-size: 13px; font-weight: 400; color: var(--text2); margin-left: 6px; }
+  .search-wrap { flex: 1; min-width: 160px; }
+  .search-wrap input {
+    width: 100%;
+    padding: 7px 12px;
+    font-size: 14px;
+    border: 0.5px solid var(--border2);
+    border-radius: var(--radius);
+    background: var(--bg2);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-wrap input:focus { border-color: #378add; }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 5px 13px;
+    font-size: 13px;
+    border: 0.5px solid var(--border2);
+    border-radius: 99px;
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { background: var(--bg3); color: var(--text); }
+  .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+  .main { max-width: 860px; margin: 0 auto; padding: 1.5rem; }
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .stat-card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 12px 16px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .stat-num { font-size: 26px; font-weight: 500; line-height: 1.2; }
+  .stat-num.green { color: #1D9E75; }
+  .stat-num.red { color: #E24B4A; }
+  .stat-label { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+  .section-label {
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+
+  .q-card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: border-color 0.15s;
+  }
+  .q-card.correct { border-left: 3px solid #1D9E75; }
+  .q-card.wrong { border-left: 3px solid #E24B4A; }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .q-header:hover { background: var(--bg2); }
+  .q-num {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    min-width: 26px;
+    padding-top: 1px;
+    flex-shrink: 0;
+  }
+  .q-text { font-size: 14px; color: var(--text); line-height: 1.65; flex: 1; }
+  .cat-badge {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 99px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .cat-virus { background: var(--blue-bg); color: var(--blue-text); }
+  .cat-bacteria { background: var(--teal-bg); color: var(--teal-text); }
+  .cat-fungus { background: var(--amber-bg); color: var(--amber-text); }
+  .cat-hiv { background: var(--pink-bg); color: var(--pink-text); }
+  .cat-hepatitis { background: var(--purple-bg); color: var(--purple-text); }
+  .cat-general { background: var(--gray-bg); color: var(--gray-text); }
+  .chevron {
+    font-size: 14px;
+    color: var(--text2);
+    margin-top: 1px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  .q-body { display: none; padding: 0 16px 14px; border-top: 0.5px solid var(--border); }
+  .q-body.open { display: block; }
+
+  .opts { margin-top: 12px; display: flex; flex-direction: column; gap: 7px; }
+  .opt {
+    padding: 9px 12px;
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    border: 0.5px solid var(--border);
+    cursor: pointer;
+    color: var(--text);
+    background: var(--bg);
+    transition: background 0.12s, border-color 0.12s;
+    text-align: left;
+    line-height: 1.5;
+  }
+  .opt:hover:not(:disabled) { background: var(--bg2); border-color: var(--border2); }
+  .opt:disabled { cursor: default; }
+  .opt.correct-ans { background: var(--green-bg) !important; border-color: var(--green-border) !important; color: var(--green-text) !important; }
+  .opt.wrong-sel { background: var(--red-bg) !important; border-color: var(--red-border) !important; color: var(--red-text) !important; }
+
+  .explanation {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: var(--bg2);
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    color: var(--text2);
+    line-height: 1.75;
+    border-left: 3px solid var(--border2);
+  }
+  .explanation strong { color: var(--text); font-weight: 500; }
+
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text2);
+    font-size: 15px;
+  }
+
+  .progress-bar-wrap {
+    background: var(--bg3);
+    border-radius: 99px;
+    height: 4px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #1D9E75, #378add);
+    border-radius: 99px;
+    transition: width 0.3s;
+  }
+  .progress-text {
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 600px) {
+    .main { padding: 1rem; }
+    .top-inner { gap: 0.6rem; }
+    .stats-row { gap: 6px; }
+    .stat-num { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-inner">
+    <div class="site-title">微免考古題 <span>期末詳解</span></div>
+    <div class="search-wrap">
+      <input type="text" id="search" placeholder="搜尋題目或關鍵字…" oninput="render()" />
+    </div>
+    <div class="filters" id="filters">
+      <button class="filter-btn active" onclick="setFilter('all',this)">全部</button>
+      <button class="filter-btn" onclick="setFilter('virus',this)">病毒</button>
+      <button class="filter-btn" onclick="setFilter('bacteria',this)">細菌</button>
+      <button class="filter-btn" onclick="setFilter('fungus',this)">黴菌</button>
+      <button class="filter-btn" onclick="setFilter('hiv',this)">HIV</button>
+      <button class="filter-btn" onclick="setFilter('hepatitis',this)">肝炎</button>
+      <button class="filter-btn" onclick="setFilter('general',this)">通論</button>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num" id="s-total">114</div>
+      <div class="stat-label">篩選題數</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num green" id="s-correct">0</div>
+      <div class="stat-label">答對</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num red" id="s-wrong">0</div>
+      <div class="stat-label">答錯</div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+  <div class="progress-text"><span id="progress-text">尚未作答</span><span id="progress-pct"></span></div>
+  <div id="q-list"></div>
+</div>
+
+<script>
+const Q = [
+  {n:1,cat:'virus',text:'下列有關人類乳突瘤病毒(HPV)的敘述，何者正確?',opts:['可以區分成大約100種血清型','HPV-16和HPV-18是引起子宮頸癌的高危險病毒株','E7病毒蛋白質會與p53結合','E6病毒蛋白質會與p105RB蛋白質結合'],ans:1,exp:'HPV約有200種以上基因型(非血清型)。HPV-16和18確實是高危險型，與70%以上子宮頸癌相關。<strong>E6與p53結合使其降解；E7與pRb(p105RB)結合</strong>，使細胞進入增殖狀態。選B正確。'},
+  {n:2,cat:'virus',text:'下列何種病毒核酸為dsRNA，經糞口傳染，引起水痢、嘔吐等胃腸道症狀?',opts:['輪狀病毒(Rotavirus)','諾羅病毒(Norovirus)','HIV','腺病毒(Adenovirus)'],ans:0,exp:'<strong>輪狀病毒</strong>：dsRNA、分11段、雙層蛋白衣，是兒童急性腸胃炎最常見原因，糞口傳播。諾羅病毒為ssRNA(+)；HIV為ssRNA(+)逆轉錄病毒；腺病毒為dsDNA。'},
+  {n:3,cat:'fungus',text:'有關黴菌(fungus)的敘述，下列何者錯誤?',opts:['有典型的細胞核','細胞壁特有成分是幾丁質(chitin)','最適生長pH值為微酸環境','最適生長溫度為37度C'],ans:3,exp:'黴菌最適生長溫度約為<strong>25~30°C</strong>，並非37°C（37°C是人體體溫，是細菌最適溫度）。黴菌確實有真核、細胞壁含幾丁質、偏好微酸pH(pH 5~6)。答案D錯誤。'},
+  {n:4,cat:'fungus',text:'大量存在鴿糞中，可引起肺炎及腦炎的黴菌是什麼?',opts:['白色念珠菌(Candida albicans)','皮癬菌(dermatophytes)','新生隱球菌(Cryptococcus neoformans)','申克氏孢子絲菌(Sporothrix schenckii)'],ans:2,exp:'<strong>新生隱球菌</strong>大量存在於鴿糞中，吸入後可引起肺炎；在免疫力低下者（如AIDS患者）可播散到腦部引起腦膜炎/腦炎。其莢膜多醣具有抗吞噬功能。印度墨汁染色可見莢膜暈。'},
+  {n:5,cat:'fungus',text:'腦脊髓液分離出具有莢膜的微生物，患者平日飼養鴿子。最可能是哪種微生物?',opts:['新生隱球菌(Cryptococcus neoformans)','白色念珠菌(Candida albicans)','皮癬菌(dermatophytes)','黃麴菌(Aspergillus flavus)'],ans:0,exp:'「飼養鴿子」是關鍵提示，鴿糞富含<strong>新生隱球菌</strong>。有莢膜、引起腦膜炎，印度墨汁染色可見莢膜暈。確認診斷用乳膠凝集試驗偵測莢膜多醣抗原。'},
+  {n:6,cat:'fungus',text:'25歲AIDS病患口內出現白色斑點及潰瘍，最可能是哪種微生物?',opts:['白色念珠菌(Candida albicans)','皮癬菌(dermatophytes)','新生隱球菌(Cryptococcus neoformans)','申克氏孢子絲菌(Sporothrix schenckii)'],ans:0,exp:'<strong>白色念珠菌</strong>是機會性感染最常見黴菌。在免疫力低下（AIDS、CD4<200）患者口腔引起鵝口瘡(thrush)，表現為口腔白色偽膜斑點，刮除後可見發紅黏膜。'},
+  {n:7,cat:'fungus',text:'下列何種抗黴菌藥物與麥角脂醇(ergosterol)結合，造成細胞內容物流出而殺菌?',opts:['Ketoconazole','Griseofulvin','Amphotericin B','Echinocandins'],ans:2,exp:'<strong>Amphotericin B</strong>直接與ergosterol結合，在細胞膜上形成孔洞，使離子及細胞內容物流出→細菌死亡。Ketoconazole抑制ergosterol合成(demethylase)；Griseofulvin抑制微管；Echinocandins抑制β-1,3-glucan合成酶。'},
+  {n:8,cat:'bacteria',text:'大部分細菌帶有plasmid，下列特性敘述何者錯誤?',opts:['可自主複製(replicate independently)','細胞生存需要(bacterial essential structure)','With double strand DNA','帶抗藥基因(with R factor)'],ans:1,exp:'Plasmid是染色體外的環狀dsDNA，可自主複製，常帶抗藥基因(R factor)等，但<strong>並非細菌生存所必需的結構</strong>。沒有plasmid的細菌照樣存活。答案B描述錯誤。'},
+  {n:9,cat:'bacteria',text:'下列何種大腸桿菌具有attachment/effacement(A/E) histopathology，能破壞小腸微絨毛?',opts:['Enteropathogenic E.coli (EPEC)','Enterotoxigenic E.coli (ETEC)','Enteroaggregative E.coli (EAEC)','Enteroinvasive E.coli (EIEC)'],ans:0,exp:'<strong>EPEC</strong>是A/E病理的典型代表：貼附微絨毛→注入Tir蛋白→破壞微絨毛(effacement)→腹瀉。多見於發展中國家嬰兒腸胃炎。ETEC產毒素；EIEC侵入腸黏膜；EAEC聚集黏附。'},
+  {n:10,cat:'general',text:'Radiation控制微生物的敘述下列何者為非?',opts:['Gamma rays穿透能力佳但殺菌需數小時','Electron beams具高能量但穿透能力差','紫外線是非離子性放射線用來控制微生物最實用方法','紫外線可有效殺菌但穿透能力差'],ans:2,exp:'紫外線(UV)穿透力差，只能用於表面和空氣消毒，<strong>不是控制微生物"最實用"的方法</strong>。Gamma rays穿透力強，用於工業滅菌，但需時較長(A正確)；Electron beams穿透力較差(B正確)。答案C說法有誤。'},
+  {n:11,cat:'bacteria',text:'下列何者會造成萊姆症(Lyme disease)?',opts:['Borrelia(包式螺旋體)','Treponema(密螺旋體)','Rickettsia(立克次體)','Leptospira(鉤端螺旋體)'],ans:0,exp:'萊姆症病原體為<strong>Borrelia burgdorferi</strong>，由鹿蜱(Ixodes tick)傳播。典型症狀：遊走性紅斑(erythema migrans)、關節炎、神經症狀。Treponema→梅毒；Rickettsia→落磯山斑疹熱等；Leptospira→鉤端螺旋體病。'},
+  {n:12,cat:'bacteria',text:'下列何者為慢性耳炎及竇炎常見病原菌?',opts:['Haemophilus influenzae(流感嗜血桿菌)','Corynebacterium diphtheriae(白喉棒狀桿菌)','Bordetella pertussis(百日咳博德氏菌)','Haemophilus aegyptius(埃及嗜血桿菌)'],ans:0,exp:'<strong>H. influenzae（尤其非莢膜型/nontypeable）</strong>是成人慢性中耳炎、鼻竇炎的重要病原菌，也常造成COPD急性惡化。H. aegyptius則引起結膜炎。白喉棒狀桿菌→白喉；百日咳博德氏菌→百日咳。'},
+  {n:13,cat:'bacteria',text:'關於炭疽病(anthrax)的描述何者錯誤?',opts:['臨床上有三種型式:皮膚型、吸入型、腸胃炎型','典型皮膚型炭疽病可能出現壞死的焦痂(eschar)','吸入型容易在人與人之間飛沫傳播','腸胃炎型致死率很高'],ans:2,exp:'<strong>炭疽病不會人傳人</strong>。吸入型是吸入孢子感染，並非飛沫傳播，也不會人傳人。皮膚型：無痛性黑色焦痂；腸胃炎型：致死率25-60%；吸入型死亡率最高(>80%)。'},
+  {n:14,cat:'bacteria',text:'下列何種毒素會造成鬆弛性痲痺(flaccid paralysis)?',opts:['Tetanospasmin(破傷風毒素)','Botulinum toxin(肉毒桿菌毒素)','Anthrax toxin(炭疽毒素)','Diphtheria toxin(白喉毒素)'],ans:1,exp:'<strong>Botulinum toxin</strong>阻斷乙醯膽鹼從神經末梢釋放→肌肉無法收縮→<strong>鬆弛性痲痺</strong>。Tetanospasmin阻斷抑制性神經元→<strong>痙攣性痲痺</strong>(spastic paralysis)。兩者作用機制相反，須區分！'},
+  {n:15,cat:'bacteria',text:'偽膜性結腸炎是因為抗生素使用而造成的腸道疾病，下列何種細菌可能為其病因?',opts:['Clostridium difficile(困難梭狀芽孢桿菌)','Clostridium perfringens(產氣莢膜梭狀芽孢桿菌)','Bacillus cereus(蠟狀桿菌)','Bacillus anthracis(炭疽桿菌)'],ans:0,exp:'<strong>C. difficile (CDI)</strong>是抗生素相關腸炎的主因。抗生素破壞正常腸道菌叢→C. diff過度生長→釋放毒素A(enterotoxin)和毒素B(cytotoxin)→偽膜性結腸炎。治療用vancomycin或fidaxomicin。'},
+  {n:16,cat:'bacteria',text:'炭疽桿菌水腫毒素(edema toxin)的作用為?',opts:['使cAMP上升','使cAMP下降','阻斷蛋白質合成','破壞MAP kinase'],ans:0,exp:'水腫毒素 = 保護性抗原(PA) + 水腫因子(EF)。EF是鈣調蛋白依賴的腺苷酸環化酶，進入細胞後大量產生<strong>cAMP↑</strong>→細胞水腫、離子平衡失調。（霍亂毒素也使cAMP↑，但機制不同）'},
+  {n:17,cat:'bacteria',text:'炭疽桿菌致死毒素(lethal toxin)的作用為何?',opts:['使cAMP上升','使cAMP下降','阻斷蛋白質合成','破壞mitogen-activated protein(MAP) kinase'],ans:3,exp:'致死毒素 = PA + 致死因子(LF)。LF是金屬蛋白酶，切割並<strong>破壞MAP kinase kinase (MEK/MKK)</strong>→干擾MAPK訊號路徑→巨噬細胞死亡、細胞激素風暴→宿主死亡。'},
+  {n:18,cat:'bacteria',text:'下列何種細菌可通過污染的水或食物感染，還可通過胎盤由母親傳給胎兒?',opts:['Bacillus cereus(蠟狀桿菌)','Listeria monocytogenes(李斯特單核球桿菌)','Corynebacterium diphtheriae(白喉棒狀桿菌)','Bordetella pertussis(百日咳博德氏菌)'],ans:1,exp:'<strong>Listeria monocytogenes</strong>是重要的食源性致病菌，存在於未殺菌乳酪、生肉等。特點：可在4°C冰箱生長、胞內寄生、利用actin聚合移動。可穿越胎盤造成先天性李斯特菌病(流產、死胎)。'},
+  {n:19,cat:'bacteria',text:'Which E. coli is associated with hemolytic uremic syndrome (HUS)?',opts:['Enteropathogenic E.coli (EPEC)','Enterotoxigenic E.coli (ETEC)','Enteroaggregative E.coli (EAEC)','Enteroinvasive E.coli (EIEC)'],ans:3,exp:'<strong>注意：本題選項可能有誤</strong>，正確答案應為<strong>EHEC (Enterohemorrhagic E. coli，如O157:H7)</strong>。EHEC產Shiga-like toxin→微血管內皮損傷→HUS(溶血性貧血+血小板減少+急性腎衰竭)。題目選項中若無EHEC，選最接近者(EIEC)。'},
+  {n:20,cat:'bacteria',text:'有關Shiga toxin敘述何者錯誤?',opts:['可以抑制宿主細胞蛋白質表現','Shigella dysenteriae可產生Shiga toxin','可能與HUS溶血性尿毒症候群有關','ETEC也會產生Shiga toxin'],ans:3,exp:'<strong>ETEC不產生Shiga toxin</strong>，ETEC產生的是LT(heat-labile)和ST(heat-stable)毒素。Shiga toxin：作用於60S核糖體→抑制蛋白質合成；由痢疾志賀氏菌和EHEC產生；與HUS相關。'},
+  {n:21,cat:'bacteria',text:'尿素呼氣試驗診斷幽門螺旋桿菌，此方法偵測下列何種物質?',opts:['CO2','Ammonia (NH3)','OH-','Urease'],ans:0,exp:'尿素呼氣試驗(Urea breath test)：病患口服含13C/14C標記的尿素→若有H. pylori，其urease分解尿素→<strong>標記的13CO2或14CO2</strong>→呼出氣體中偵測到標記的CO2即為陽性。偵測的是CO2，非NH3或urease本身。'},
+  {n:22,cat:'bacteria',text:'下列何者不是幽門螺旋桿菌的致病因子?',opts:['VacA','CagA','Capsule','Urease'],ans:2,exp:'<strong>H. pylori沒有莢膜(capsule)！</strong>H. pylori主要致病因子：Urease(中和胃酸保護菌體)；VacA(空泡化細胞毒素，破壞上皮細胞)；CagA(oncoprotein，透過Type IV secretion system注入細胞，與胃癌相關)。'},
+  {n:23,cat:'bacteria',text:'關於Treponema pallidum梅毒螺旋菌的診斷，何者為非?',opts:['Treponema test通常用於初步篩檢','VDRL test使用cardiolipin作為抗原','VDRL test是nontreponemal test','Dark-field microscopy是診斷方法之一'],ans:0,exp:'梅毒診斷：<strong>初步篩檢</strong>用<strong>VDRL/RPR</strong>（非螺旋體試驗，靈敏度高但特異度低）；<strong>確認試驗</strong>用FTA-ABS或TPHA（螺旋體試驗，特異度高）。A說Treponema test用於初篩是錯誤的。暗視野顯微鏡可直接觀察活螺旋體(D正確)。'},
+  {n:24,cat:'bacteria',text:'BCG是結核病的疫苗，這個疫苗是由何種細菌製作的?',opts:['Mycobacterium leprae(痲瘋分支桿菌)','Mycobacterium bovis(牛型分枝桿菌)','Mycobacterium tuberculosis(結核分支桿菌)','Mycobacterium avium complex(禽型分枝桿菌群)'],ans:1,exp:'BCG(Bacille Calmette-Guérin)是由法國科學家Calmette和Guérin將<strong>牛型分枝桿菌(M. bovis)</strong>在實驗室中連續繼代培養13年，使其毒力減弱(減毒活菌)而製成的疫苗。'},
+  {n:25,cat:'bacteria',text:'關於BCG卡介苗何者正確?',opts:['由減毒活毒之結核分枝桿菌所製作的疫苗','施打此疫苗不會感染結核分枝桿菌','成年後施打效果較佳','不良反應包括施打部位膿傷以及紅腫'],ans:3,exp:'BCG不良反應包括：<strong>注射部位局部潰瘍化膿、局部淋巴結炎</strong>，這是正常反應(D正確)。A錯：BCG由M. bovis製成(非M. tuberculosis)；B錯：免疫低下者可能發生BCG感染；C錯：嬰幼兒接種效果最佳。'},
+  {n:26,cat:'bacteria',text:'下列何種流感嗜血桿菌莢膜型在過去會造成嚴重小兒感染，但因疫苗而被根除?',opts:['a','b','c','nonencapsulated strains(無莢膜)'],ans:1,exp:'<strong>Hib (H. influenzae type b)</strong>是5歲以下兒童細菌性腦膜炎的主要病原，也可引起會厭炎(epiglottitis)等。自Hib疫苗廣泛施打後，侵襲性Hib感染已幾乎消滅。無莢膜型(nontypeable)仍是中耳炎、鼻竇炎的常見病原。'},
+  {n:27,cat:'bacteria',text:'百日咳疾病進程可分為四個時期，請問哪個時期傳染力最高?',opts:['Latent stage潛伏期','Catarrhal stage黏膜期','Paroxysmal發作期','Convalescence恢復期'],ans:1,exp:'百日咳傳染力最強的是<strong>黏膜期(Catarrhal stage)</strong>，此期症狀類似一般感冒，但細菌量最多，傳染力最強。進入痙攣性咳嗽期(Paroxysmal)後傳染力反而下降。'},
+  {n:28,cat:'bacteria',text:'下列何者無法透過節肢動物的卵進行傳播(transovarial transmission)?',opts:['Rickettsia rickettsii','Rickettsia prowazekii','Rickettsia akari','Rickettsia typhi'],ans:1,exp:'<strong>R. prowazekii</strong>(引起流行性斑疹傷寒)由<strong>人蝨</strong>傳播，人蝨沒有卵傳代傳染(transovarial transmission)。其他：R. rickettsii、R. akari、R. typhi均可在蜱/蟎中進行transovarial傳播。'},
+  {n:29,cat:'bacteria',text:'Which of the following is NOT true about Elementary body(原質體) forms of Chlamydia trachomatis?',opts:['Infectious form(具感染力)','Resistant to harsh environment','Replicating form(可以複製)','Outer membrane proteins are extensively cross-linked by disulfide bonds'],ans:2,exp:'衣原體兩種型態：<strong>Elementary body(EB)</strong>：具感染力、不可複製、外膜有雙硫鍵(穩定)、對環境有抵抗性。<strong>Reticulate body(RB)</strong>：在細胞內複製、無感染力。故「Replicating form」是RB的特性，不是EB。'},
+  {n:30,cat:'bacteria',text:'下列何者會造成落磯山斑疹熱(Rocky Mountain spotted fever)?',opts:['Rickettsia rickettsii','Rickettsia prowazekii','Rickettsia akari','Rickettsia typhi'],ans:0,exp:'<strong>落磯山斑疹熱：R. rickettsii</strong>，由硬蜱(Dermacentor tick)傳播，是美洲最嚴重的立克次體病。特徵：發燒、頭痛、從手腳蔓延向軀幹的斑疹。R. prowazekii→流行性斑疹傷寒；R. akari→立克次痘疹；R. typhi→地方性斑疹傷寒。'},
+  {n:31,cat:'bacteria',text:'下列何者會造成立克次痘疹(Rickettsialpox)?',opts:['Rickettsia rickettsii','Rickettsia prowazekii','Rickettsia akari','Rickettsia typhi'],ans:2,exp:'<strong>R. akari</strong>由鼠蟎(Allodermanyssus sanguineus)傳播，引起立克次痘疹(Rickettsialpox)。特徵：初期焦痂、發燒、水痘樣皮疹。可transovarial傳播。'},
+  {n:32,cat:'bacteria',text:'下列何者不是大腸桿菌常見的感染症?',opts:['胃潰瘍','泌尿道感染','腸胃炎','菌血症'],ans:0,exp:'<strong>胃潰瘍的主要病原體是幽門螺旋桿菌(H. pylori)</strong>，不是大腸桿菌。E. coli常見感染症包括：泌尿道感染(UTI，最常見)、腸胃炎、菌血症/敗血症、新生兒腦膜炎等。'},
+  {n:33,cat:'bacteria',text:'下列何者為造成已開發國家腸胃炎常見的大腸桿菌?',opts:['EPEC','ETEC','EAEC','EIEC'],ans:2,exp:'<strong>EAEC(腸聚集性大腸桿菌)</strong>是已開發國家散發性腸胃炎和旅行者腹瀉的重要病原之一，也與持續性兒童腹瀉相關。ETEC主要是發展中國家旅行者腹瀉；EPEC主要在嬰兒腹瀉。'},
+  {n:34,cat:'bacteria',text:'下列何者具有heat-labile toxins(LT)和heat-stable toxins(ST)的大腸桿菌?',opts:['EPEC','ETEC','EAEC','EIEC'],ans:1,exp:'<strong>ETEC(腸毒性大腸桿菌)</strong>產生LT(heat-labile，類似霍亂毒素，使cAMP↑)和ST(heat-stable，使cGMP↑)。是旅行者腹瀉(traveler\'s diarrhea)的最重要病原，也是發展中國家兒童腹瀉的重要原因。'},
+  {n:35,cat:'bacteria',text:'下列何者為厭氧、革蘭氏陽性、並且會產生孢子的桿菌?',opts:['Campylobacter jejuni(空腸曲狀桿菌)','Bacillus cereus(蠟狀桿菌)','Clostridium perfringens(產氣莢膜梭狀芽孢桿菌)','Francisella tularensis(法蘭西氏菌)'],ans:2,exp:'<strong>Clostridium perfringens</strong>：G(+)、厭氧、產孢子。可引起食物中毒、氣性壞疽(gas gangrene)。Bacillus cereus雖也是G(+)產孢子桿菌，但它是<strong>需氧菌</strong>。Campylobacter：微需氧、G(-)；Francisella：G(-)、需氧。'},
+  {n:36,cat:'bacteria',text:'Which of the following toxins is responsible for spastic paralysis(痙攣性痲痺)?',opts:['Tetanospasmin(破傷風毒素)','Botulinum toxin(肉毒桿菌毒素)','Anthrax toxin(炭疽毒素)','Diphtheria toxin(白喉毒素)'],ans:0,exp:'<strong>Tetanospasmin</strong>：阻斷脊髓和腦幹中抑制性神經元釋放GABA/甘胺酸→肌肉持續痙攣→<strong>痙攣性痲痺</strong>(牙關緊閉、角弓反張)。Botulinum toxin則阻斷Ach釋放→<strong>鬆弛性痲痺</strong>。兩者記法相反！'},
+  {n:37,cat:'hiv',text:'有關目前臨床上常用的HIV檢驗，何者錯誤?',opts:['空窗期一般是指HIV抗原偵測不到的時期，平均期間為感染2個月','臨床實驗室常用西方墨點法作為確認試驗','臨床實驗室常用血漿中HIV病毒量評估雞尾酒療法效果','可用唾液來做HIV抗體篩檢'],ans:0,exp:'空窗期(window period)是指<strong>HIV抗體</strong>尚未產生或無法偵測的時期，而非「抗原偵測不到」。現代第4代試劑可同時偵測抗原(p24)和抗體，窗口期縮短至約2週~1個月。A的說法描述不準確。'},
+  {n:38,cat:'hiv',text:'下列有關HIV感染抗體空窗期之敘述，何者錯誤?',opts:['大約1~3個月的時間','血液中無HIV','HIV抗體呈現陰性','CD4 count會有暫時的下降'],ans:1,exp:'空窗期並非血液中無HIV！<strong>事實上空窗期病毒量很高，傳染力強</strong>，只是抗體還未產生而已。特徵：抗體(-)、病毒量高、CD4可短暫下降後回復。B說法完全錯誤。'},
+  {n:39,cat:'hiv',text:'下列哪一項臨床檢驗項目，是常規評估雞尾酒療法(HAART)治療AIDS效果的主要指標?',opts:['p24抗原之測定','CD4:CD8 T-cell比例之測定','西方雜合法','血漿中HIV病毒量之測定'],ans:3,exp:'評估HAART療效的主要指標是<strong>血漿中HIV病毒量(viral load, HIV RNA copies/mL)</strong>。治療成功→病毒量低於偵測下限(<50 copies/mL)。CD4 count用於評估免疫狀態和決定是否開始治療的時機。'},
+  {n:40,cat:'hiv',text:'Proteinase inhibitor可以治療HIV感染的原因為何?',opts:['HIV需要分解蛋白質取得胺基酸以治療病毒蛋白','病毒需要proteinase才能進入白血球','HIV製造的蛋白質需要經過切割才能變成有功能的分子','Proteinase inhibits antigen presentation，妨礙T細胞活化'],ans:2,exp:'HIV的gag和pol基因翻譯出大型前體蛋白質(polyprotein)，必須被<strong>HIV的蛋白酶(protease)</strong>切割成成熟的結構蛋白和酵素才有功能。PI抑制protease→病毒無法成熟→產生無感染力的病毒顆粒。'},
+  {n:41,cat:'hiv',text:'HIV區分X4 strain或R5 strain，請問哪個基因的點突變改變HIV對細胞的親和性?',opts:['env','gag','tat','pol'],ans:0,exp:'<strong>env基因</strong>編碼gp120/gp41。gp120的V3環區決定使用哪種共受體：<strong>R5株使用CCR5</strong>（存在於巨噬細胞、記憶T細胞）；<strong>X4株使用CXCR4</strong>（存在於naive T細胞）。env基因突變→V3環改變→共受體親和性改變。'},
+  {n:42,cat:'hiv',text:'HIV主要感染人類何種細胞?',opts:['輔助型T細胞(CD4+ T cells)','細胞毒殺型T細胞(CD8+ T cells)','B cells','黏膜上皮細胞'],ans:0,exp:'HIV主要感染<strong>CD4+ T helper cells</strong>，因為HIV的gp120與CD4分子結合。此外也感染：巨噬細胞(macrophage)、樹突細胞(dendritic cell)，這些細胞也表達少量CD4。AIDS的定義之一是CD4<200/μL。'},
+  {n:43,cat:'virus',text:'下列有關成人T細胞白血病(adult T-cell leukemia)的敘述，何者正確?',opts:['在疾病後期很常見Kaposi\'s sarcoma的發生','在血液中不正常T cell內檢測到HTLV-1的機率很高','隨著病程發展，CD4+ cell的數量會愈來愈少','HTLV-1基因體上帶有腫瘤基因'],ans:1,exp:'ATL(成人T細胞白血病/淋巴瘤)由HTLV-1引起：不正常的CD4+ T細胞大量增殖，<strong>在這些不正常細胞中可高機率檢測到HTLV-1基因組</strong>。HTLV-1透過Tax蛋白促進細胞增殖，不帶腫瘤基因(D錯)。Kaposi\'s sarcoma是HHV-8引起的AIDS相關癌症(A錯)。'},
+  {n:44,cat:'fungus',text:'構成真菌細胞壁之主要成分為何?',opts:['幾丁質以及alpha-1-4-glucan','幾丁質以及beta-1-3-glucan','肽糖以及beta-1-4-glucan','幾丁質以及alpha-1-6-glucan'],ans:1,exp:'真菌細胞壁由<strong>幾丁質(chitin)和β-1,3-葡聚糖(β-1,3-glucan)</strong>構成。Echinocandins類抗黴菌藥物即抑制β-1,3-glucan合成酶。細菌細胞壁成分是肽聚糖(peptidoglycan)。'},
+  {n:45,cat:'virus',text:'曾被流感病毒感染過的人，體內最具中和性保護力的抗體應能辨識哪種病毒蛋白質?',opts:['血球凝集素(Hemagglutinin, HA)','基質蛋白(Matrix protein)','核套蛋白(Nucleocapsid)','非結構蛋白(Non-structural protein)'],ans:0,exp:'流感病毒的保護性中和抗體主要針對<strong>血球凝集素(Hemagglutinin, HA)</strong>。HA負責與宿主細胞唾液酸受體結合，抗HA抗體可阻斷此結合→中和病毒。這也是流感疫苗和每年更新株型的原因。'},
+  {n:46,cat:'fungus',text:'常見於嬰孩口腔之鵝口瘡，是何種微生物感染?',opts:['新型隱球菌','白色念珠菌','金黃色葡萄球菌','淋病雙球菌'],ans:1,exp:'鵝口瘡(oral thrush)由<strong>白色念珠菌(Candida albicans)</strong>引起，常見於新生兒、使用抗生素或免疫抑制劑的患者、AIDS病人。表現為口腔白色偽膜，刮除後可見發紅黏膜。'},
+  {n:47,cat:'virus',text:'單股(+)strand RNA病毒在宿主細胞何處進行RNA複製?',opts:['細胞核','細胞質','細胞膜','核膜'],ans:1,exp:'正股(+)ssRNA病毒的RNA可直接作為mRNA使用，<strong>整個複製過程在細胞質中進行</strong>，不需進入細胞核。例外：流感病毒(負股分段RNA)需在細胞核中複製；逆轉錄病毒(HIV)需進入細胞核整合。'},
+  {n:48,cat:'hepatitis',text:'先感染B型肝炎病毒後，再感染下列何種肝炎病毒，極易引起猛爆性肝炎?',opts:['HAV','HCV','HDV','HEV'],ans:2,exp:'<strong>HDV(D型肝炎病毒，delta virus)</strong>是有缺陷的RNA病毒，必須依賴HBV提供HBsAg作為外膜才能感染細胞。HDV重疊感染(superinfection，HBV帶原者再感染HDV)比共同感染更容易引起猛爆性肝炎，預後差。'},
+  {n:49,cat:'hepatitis',text:'針對B型肝炎病毒，一般方法無法自血液中測得下列哪一種抗原或抗體?',opts:['HBc抗體','HBc抗原','HBs抗體','HBs抗原'],ans:1,exp:'<strong>HBcAg(B型肝炎核心抗原)</strong>位於病毒的核心，不游離於血液中，因此用一般血液檢測方法無法直接偵測到HBcAg。只能測到anti-HBc(核心抗體)。HBsAg和anti-HBs、anti-HBc都可用常規方法測得。'},
+  {n:50,cat:'virus',text:'下列有關日本腦炎病毒與登革熱病毒特性之敘述，何者正確?',opts:['均可注射疫苗，預防感染','被感染之宿主可再直接傳播病毒','均由埃及斑蚊傳播','感染後均產生感冒般症狀'],ans:0,exp:'日本腦炎有有效疫苗；登革熱疫苗(Dengvaxia)目前也已核准，均可注射疫苗(A正確)。B錯：需要蚊子作為媒介，不會直接人傳人。C錯：日本腦炎由<strong>三斑家蚊</strong>傳播，非埃及斑蚊。D錯：日腦可能引起嚴重腦炎。'},
+  {n:51,cat:'virus',text:'下列何種病毒，會引起睪丸、卵巢、胰臟等腺體發炎之病症?',opts:['麻疹病毒','呼吸道融合病毒','副流行性感冒病毒','腮腺炎病毒'],ans:3,exp:'<strong>腮腺炎病毒(Mumps virus)</strong>除引起腮腺炎外，可併發：睪丸炎(青春期後男性，可致不孕)、卵巢炎、胰臟炎、腦膜腦炎。屬Paramyxoviridae，負股ssRNA，有包膜。'},
+  {n:52,cat:'virus',text:'病人的口腔黏膜上若出現柯氏斑點(Koplik\'s spots)表示何種病毒感染?',opts:['麻疹病毒','德國麻疹病毒','腮腺炎病毒','單純疱疹病毒'],ans:0,exp:'<strong>柯氏斑點(Koplik\'s spots)是麻疹特有的病理徵象</strong>，出現在出疹前1~2天，位於臼齒對面頰黏膜，呈藍白色小斑點，周圍發紅。是麻疹的前驅症狀，具診斷價值。'},
+  {n:53,cat:'virus',text:'麻疹病毒的主要傳染途徑為?',opts:['飛沫','飲食','注射、輸血','節肢動物叮咬'],ans:0,exp:'<strong>麻疹病毒</strong>主要經由<strong>飛沫及空氣傳播</strong>(airborne transmission)，是傳染力最強的病毒之一(R0=12~18)。在同一空間停留2小時後離開的人仍可能被感染。'},
+  {n:54,cat:'virus',text:'下列何種病毒目前尚無有效的疫苗可以預防感染?',opts:['小兒麻痺病毒','登革熱病毒','麻疹病毒','流行性感冒病毒'],ans:1,exp:'登革熱疫苗(Dengvaxia, CYD-TDV)只建議已有自然感染證據者使用，對未曾感染者接種可能增加重症風險，因此對一般人而言尚無廣泛有效的疫苗。<strong>注意：此題答案可能因教材版本而異。</strong>'},
+  {n:55,cat:'hepatitis',text:'下列有關B型肝炎帶原者的敘述，何者錯誤?',opts:['愈年幼感染愈容易變成帶原者','男性變成帶原者的比例較女性高','通常anti-HBe出現於帶原早期','血液中帶有HBsAg'],ans:2,exp:'在B肝帶原的<strong>早期(免疫耐受期)</strong>，HBeAg陽性，代表病毒活躍複製。Anti-HBe的出現(HBeAg消失→anti-HBe出現)代表「e抗原血清轉換」，代表病毒複製減少，是帶原<strong>中後期</strong>的特徵，而非帶原早期。'},
+  {n:56,cat:'virus',text:'血球附著現象(hemadsorption)不可用來初步認定下列哪種病毒培養?',opts:['呼吸道融合病毒(RSV)','副流行性感冒病毒','腮腺炎病毒','麻疹病毒'],ans:0,exp:'血球附著(hemadsorption)試驗利用病毒感染細胞後表面表現血球凝集素(HA)，可吸附紅血球。<strong>RSV沒有血球凝集素</strong>，無法做hemadsorption試驗。副流感、腮腺炎、麻疹病毒均有HA，可用此試驗。'},
+  {n:57,cat:'virus',text:'下列何種抗病毒藥物可以用來治療流感?',opts:['Amantadine','Acyclovir','AZT','Penicillin'],ans:0,exp:'<strong>Amantadine/Rimantadine</strong>：阻斷流感病毒A型的M2離子通道，防止病毒脫殼(uncoating)，用於流感A的預防和治療（現多用Oseltamivir/Tamiflu）。Acyclovir→疱疹病毒；AZT(Zidovudine)→HIV；Penicillin→細菌。'},
+  {n:58,cat:'hepatitis',text:'B型肝炎病毒中何種蛋白可自行聚集形成大小形狀不一的顆粒?',opts:['HBcAg','HBeAg','HBsAg','X protein'],ans:2,exp:'<strong>HBsAg(表面抗原)</strong>可以在血液中自行聚集，形成Dane particle(完整病毒)、長管狀(tubular)及球狀(spherical)顆粒。這些顆粒不具感染力，但具有抗原性，是B肝診斷標誌，也是疫苗的主要成分。'},
+  {n:59,cat:'hepatitis',text:'醫院工作人員驗出HBsAg(+)繼而又驗出HBeAg(+)。最可能是下列何種情況?',opts:['有肝炎且有傳染力','有肝炎但不具有傳染力','感染了B型及C型肝炎病毒','此檢驗結果顯然是偽陽性'],ans:0,exp:'HBsAg(+)=B肝帶原；<strong>HBeAg(+)=病毒活躍複製，傳染力強</strong>。兩者同時陽性代表：是B肝帶原者，且病毒正在大量複製，傳染力高。HBeAg是e抗原，是HBcAg的分泌型片段，代表病毒複製活躍。'},
+  {n:60,cat:'hepatitis',text:'接種兩次B型肝炎疫苗後，下列哪一種血清學結果可能是其檢驗結果?',opts:['HBsAg(-), anti-HBc(+), anti-HBs(-)','HBcAg(+), anti-HBc(-), anti-HBs(+)','HBsAg(+), anti-HBc(+), anti-HBs(-)','HBcAg(-), anti-HBc(-), anti-HBs(+)'],ans:3,exp:'接種B肝疫苗（重組HBsAg疫苗）→產生<strong>anti-HBs(+)→受到保護</strong>。由於疫苗只含HBsAg，不含核心抗原，所以不會產生anti-HBc。正常接種後：HBsAg(-) + anti-HBc(-) + anti-HBs(+)。D選項最符合。'},
+  {n:61,cat:'hepatitis',text:'下列B肝患者之血清學結果，何者代表慢性帶原狀態?',opts:['HBsAg(-), anti-HBc(-), anti-HBs(-)','HBsAg(-), anti-HBc(+), anti-HBs(+)','HBsAg(+), anti-HBc(+), anti-HBs(-)','HBsAg(+), anti-HBc(+), anti-HBs(+)'],ans:2,exp:'慢性帶原者：<strong>HBsAg(+)持續6個月以上，anti-HBs(-)</strong>，anti-HBc(+)。HBsAg(+)且anti-HBs(-)是關鍵：有抗原但沒有清除它的抗體→帶原狀態。若anti-HBs(+)則表示已康復或接種疫苗。'},
+  {n:62,cat:'hepatitis',text:'下列何種病毒蛋白的陽轉(seroconversion)，可視為感染B型肝炎病毒痊癒的標記?',opts:['e蛋白(HBeAg→anti-HBe)','核心蛋白','聚合酶蛋白','表面蛋白(HBsAg→anti-HBs)'],ans:3,exp:'B肝痊癒的最重要標記是<strong>HBsAg消失且anti-HBs出現(表面抗原血清轉換)</strong>，代表完全清除HBV並獲得保護力。Anti-HBe出現代表病毒複製減少，但並不代表完全痊癒。'},
+  {n:63,cat:'virus',text:'下列何者不適合作為實驗室檢測流感病毒的方法?',opts:['以Madin-Darby犬腎細胞株培養檢測細胞病變','以血球凝集試驗檢測細胞培養病毒','以免疫螢光試驗檢測細胞培養中之病毒','以聚合酶連鎖反應檢測病毒DNA'],ans:3,exp:'<strong>流感病毒基因體是RNA</strong>，應用RT-PCR(逆轉錄PCR)檢測RNA，而非PCR檢測DNA。其他方法均適用：MDCK細胞培養(常用)；血球凝集試驗(HA test)；免疫螢光試驗。D說法不適合。'},
+  {n:64,cat:'virus',text:'下列何者是流行性感冒病毒和副流行性感冒病毒的不同點?',opts:['前者為正股RNA病毒，後者為負股RNA病毒','前者為負股RNA病毒，後者為正股RNA病毒','前者在細胞核複製，後者是在細胞質複製','前者基因體是不分段型，後者是分段型'],ans:2,exp:'<strong>流感病毒：負股分段RNA，在細胞核中複製</strong>（RNA pol需要細胞核中的帽子結構）。<strong>副流感病毒：負股不分段RNA，在細胞質中複製</strong>。兩者均為負股RNA，但分段與否及複製場所不同。'},
+  {n:65,cat:'bacteria',text:'下列何種立克次體造成的疾病較容易在人群擁擠與衛生環境不良的地方引發人與人的傳染?',opts:['Rickettsia rickettsii','Rickettsia prowazekii','Rickettsia akari','Rickettsia typhi'],ans:1,exp:'<strong>R. prowazekii</strong>引起流行性斑疹傷寒(epidemic typhus)，由<strong>人蝨</strong>傳播，人是主要宿主。在戰爭、難民營等人群擁擠、衛生差的環境，人蝨大量繁殖，可造成人傳人的爆發流行。'},
+  {n:66,cat:'bacteria',text:'Which of the following statements is NOT true about Mycoplasma?',opts:['The smallest free-living bacteria','Also called L-form bacteria','Cell membrane contains sterol','May cause atypical pneumonia'],ans:1,exp:'黴漿菌(Mycoplasma)是可自由生存最小的細菌，沒有細胞壁，細胞膜含固醇(sterol)，可引起非典型肺炎(walking pneumonia)。<strong>黴漿菌與L-form bacteria不同</strong>：L-form是其他有細胞壁的細菌喪失細胞壁的形態，並非黴漿菌的別稱。'},
+  {n:67,cat:'bacteria',text:'下列何者會造成回歸熱(relapsing fever)?',opts:['Borrelia(包式螺旋體)','Treponema(密螺旋體)','Rickettsia(立克次體)','Leptospira(鉤端螺旋體)'],ans:0,exp:'回歸熱由<strong>Borrelia屬</strong>引起：B. recurrentis(虱傳)和B. hermsii等(蜱傳)。特點：反覆發燒，原因是Borrelia可進行<strong>抗原變換(antigenic variation)</strong>，逃避免疫系統→每次新的抗原型造成新一波發燒。'},
+  {n:68,cat:'bacteria',text:'下列何者並非人畜共通傳染病(zoonosis)?',opts:['霍亂弧菌','鼠疫桿菌','法蘭西式菌','馬爾他布魯氏菌'],ans:0,exp:'<strong>霍亂弧菌(Vibrio cholerae)</strong>主要是人與人之間透過污染水源傳播的疾病，並非人畜共通。鼠疫桿菌→跳蚤/鼠傳人；法蘭西式菌(Francisella tularensis)→野兔等動物；布魯氏菌(Brucella)→牛羊豬等。'},
+  {n:69,cat:'bacteria',text:'下列何者並非人畜共通傳染病?(第二版)',opts:['肺炎黴漿菌(M. pneumoniae)','鼠疫桿菌','法蘭西式菌','馬爾他布魯氏菌'],ans:0,exp:'<strong>肺炎黴漿菌(Mycoplasma pneumoniae)</strong>是人傳人的病原體，不是人畜共通傳染病，主要透過飛沫在人之間傳播，引起非典型肺炎。鼠疫、土拉菌症、布魯氏菌病均為人畜共通傳染病。'},
+  {n:70,cat:'virus',text:'下列有關病毒的描述，何者是不正確的?',opts:['病毒若含有兩條或多條核酸，就稱為雙套基因體','病毒表面突出的蛋白質可能會負責吸附','病毒的套膜可以取材自細胞膜、高基氏膜或核膜','病毒必須在活細胞中才可繁殖'],ans:0,exp:'含有兩條或多條核酸應稱為<strong>「分段(segmented)基因體」</strong>，而非「雙套基因體(diploid genome)」。雙套基因體是指含有兩套相同遺傳訊息（如HIV有兩條相同的RNA）。流感病毒有8段RNA但每段不同，稱分段基因體。'},
+  {n:71,cat:'virus',text:'下列哪一個因素可以決定病毒感染的細胞種類(tropism)?',opts:['細胞是否會複製','細胞內酵素的種類','細胞的位置','細胞接受器(receptor)的種類'],ans:3,exp:'病毒的細胞嗜性(tropism)主要由<strong>宿主細胞表面接受器(receptor)</strong>決定。病毒表面蛋白（如HIV的gp120、流感的HA）必須與特定細胞受體結合才能吸附和感染。不同細胞表面的受體不同，決定了病毒能感染哪些細胞。'},
+  {n:72,cat:'virus',text:'下列為病毒生活史的基本步驟，正確排列順序為?',opts:['Attachment→Penetration→Uncoating→Genome replication & gene expression→Assembly→Release','Penetration→Attachment→Uncoating→Genome replication→Assembly→Release','Attachment→Uncoating→Penetration→Assembly→Release→Genome replication','Uncoating→Attachment→Penetration→Genome replication→Assembly→Release'],ans:0,exp:'病毒複製週期六步驟：<strong>1.吸附(Attachment)→2.穿入(Penetration)→3.脫殼(Uncoating)→4.複製及基因表現(Replication & Gene expression)→5.組裝(Assembly)→6.釋放(Release)</strong>。'},
+  {n:73,cat:'virus',text:'下列為病毒致病機轉的描述，何者是正確的?',opts:['不管藉由哪一種途徑，只要病毒進入宿主體內，就會造成感染並發病','病毒進入宿主體內後，可能需要藉由血液或神經散佈，才能與標的器官接觸','潛伏感染是裂解感染的一種形式','慢性感染是指病毒感染後到發病之間的潛伏期很長'],ans:1,exp:'<strong>B正確</strong>：病毒進入宿主後可透過血液(病毒血症)或沿神經播散至標的器官，這是全身性感染的重要途徑。A錯：並非所有感染都會發病(隱性感染)；C錯：潛伏感染與裂解感染是不同類型；D錯：慢性感染是病毒持續複製。'},
+  {n:74,cat:'virus',text:'下列有關抗病毒藥的衛教宣導，哪一種說法是錯誤的?',opts:['抗病毒藥可以避免病毒的潛伏感染','抗病毒藥通常具有副作用','抗病毒藥可以減輕疾病的嚴重程度','大部分的抗病毒藥都具有病毒的專一性'],ans:0,exp:'<strong>抗病毒藥物無法避免潛伏感染！</strong>以疱疹病毒為例，Acyclovir可以控制急性發作，但無法清除已潛伏在神經節中的病毒，停藥後病毒仍在，日後可能再活化。A錯誤。'},
+  {n:75,cat:'general',text:'下列有關prion的敘述，何者可能是錯的?',opts:['引起狂牛症、Kuru等中樞神經病變','將食物煮熟後，食物中的prion仍具有感染力','Prion的物理、化學性質均類似病毒','Prion可能具有遺傳性，可以由上一代傳給下一代'],ans:2,exp:'<strong>Prion與病毒完全不同</strong>：不含核酸、對高溫高壓有抵抗性、不刺激免疫反應、無法用抗生素治療。C說法錯誤：Prion的物理化學性質與病毒截然不同。D：遺傳性CJD和GSS症確實存在基因突變型。'},
+  {n:76,cat:'general',text:'有關prion的敘述何者正確?',opts:['高溫高壓滅菌15分鐘可以去除活性','具抗原性，可以刺激宿主產生干擾素','感染後往往要經過很長的潛伏期才發病','主要傳染途徑為食入，再隨患者糞便排出，造成傳染'],ans:2,exp:'Prion感染後<strong>潛伏期非常長(數年至數十年)</strong>，這是朊病毒病的特徵(C正確)。A錯：prion對一般高壓滅菌有抵抗性，需134°C以上或特殊處理。B錯：不刺激免疫反應，也不誘導干擾素。D錯：糞便不是主要傳播途徑。'},
+  {n:77,cat:'hiv',text:'下列有關HIV及愛滋病的敘述，何者是錯誤的?',opts:['HIV感染後一星期之內血清中可以測到HIV抗體','與愛滋病患者日常生活的接觸不是HIV的傳染途徑','HIV攻擊的細胞種類包括巨噬細胞或樹突細胞','目前利用HAART的療法可以延緩抗藥性病毒株的出現'],ans:0,exp:'HIV感染後抗體出現需要<strong>數週至數月（通常2~8週，平均約25天），一週之內測不到抗體</strong>。一週內可測到的是p24抗原或病毒RNA，不是抗體。A描述錯誤。'},
+  {n:78,cat:'hiv',text:'哪一種途徑不易傳播HIV?',opts:['性行為','輸血','呼吸道飛沫','刺青'],ans:2,exp:'HIV<strong>不會透過呼吸道飛沫傳播</strong>。HIV的傳播途徑：性行為(最常見)、血液(輸血、共用針頭)、母嬰垂直傳播(分娩、母乳)。非傳播途徑：飛沫、咳嗽、握手、共用餐具、蚊蟲叮咬等日常接觸。刺青若使用未消毒針頭則有風險。'},
+  {n:79,cat:'virus',text:'下列有關登革病毒及其引起疾病的敘述，何者錯誤?',opts:['登革病毒引起之病症為發熱、肌肉及關節痛、淋巴腫及發疹等','第二次感染不同血清型之登革病毒，發生出血性登革熱的機會增加','登革熱的患者可提供病毒給蚊子','登革熱主要流行於北半球的寒帶國家，夏天盛行率較高'],ans:3,exp:'<strong>登革熱流行於熱帶和亞熱帶地區（不是寒帶）</strong>，包括東南亞、太平洋、加勒比海等。台灣每年夏秋季有流行。主要媒介是埃及斑蚊和白線斑蚊，在寒冷地區活動少，不會流行。'},
+  {n:80,cat:'virus',text:'下列關於乳突瘤病毒(papillomavirus)的敘述，何者為誤?',opts:['會造成皮膚增生，形成疣的臨床症狀','癌細胞中的HPV基因體常是插入的狀態','E7為致癌基因，會使p53分解而影響細胞週期','可藉由不安全性行為傳播'],ans:2,exp:'<strong>E6和E7是HPV的兩個主要致癌蛋白，但作用不同：E6→降解p53；E7→失活pRb</strong>。C選項說E7使p53分解是錯誤的（應是E6使p53分解）。記憶口訣：E<strong>6</strong>對p<strong>5</strong>3，E<strong>7</strong>對p<strong>Rb</strong>。'},
+  {n:81,cat:'virus',text:'一旦感染下列何種病毒後服用Aspirin，有可能會產生雷氏症候群(Reye\'s syndrome)?',opts:['輪狀病毒','單純疱疹病毒','水痘帶狀疱疹病毒','小兒麻痺病毒'],ans:2,exp:'<strong>雷氏症候群(Reye\'s syndrome)</strong>：兒童感染水痘或流感病毒後使用Aspirin，可能引發急性腦病變及肝臟脂肪變性。故兒童病毒感染時<strong>禁用Aspirin</strong>，改用Acetaminophen退燒。'},
+  {n:82,cat:'virus',text:'小孩因為病毒感染使用某種藥物作為退燒藥時，伴隨有雷氏症候群的副作用，是哪種藥物?',opts:['Aspirin','Acetaminophen','Sulindac','Ibuprofen'],ans:0,exp:'<strong>Aspirin(乙醯水楊酸)</strong>在兒童病毒感染期間使用，可能觸發雷氏症候群(Reye\'s syndrome)。建議兒童退燒用Acetaminophen(普拿疼)或Ibuprofen代替。Aspirin在成人仍可正常使用。'},
+  {n:83,cat:'virus',text:'下列何種病毒核酸為單股RNA(+)，經飛沫傳播，引起鼻塞、流鼻涕等上呼道感染症狀?',opts:['麻疹病毒','流行性感冒病毒','Rhinovirus(鼻病毒)','腮腺炎病毒'],ans:2,exp:'<strong>Rhinovirus(鼻病毒)</strong>：正股(+)ssRNA，屬Picornaviridae，無套膜，是一般感冒(common cold)最常見的病原(約佔30-50%)。最適溫度33°C(鼻腔溫度)，飛沫或接觸傳播。麻疹和腮腺炎是負股RNA。'},
+  {n:84,cat:'virus',text:'下列哪一種疾病症狀不是A群克沙奇病毒感染所造成的?',opts:['心肌炎','位在口腔及咽喉的疱疹樣病灶(Herpangina)','手足口病','Acute hemorrhagic conjunctivitis'],ans:0,exp:'<strong>心肌炎主要是B群克沙奇病毒(Coxsackievirus B)引起</strong>，不是A群。A群克沙奇病毒引起：手足口病(HFMD)、疱疹性咽峽炎(herpangina)、急性出血性結膜炎等。'},
+  {n:85,cat:'virus',text:'蚊蟲會傳播何種疾病?',opts:['流行性感冒病毒','日本腦炎病毒','人類免疫缺陷病毒','狂犬病毒'],ans:1,exp:'<strong>日本腦炎病毒</strong>由三斑家蚊(Culex tritaeniorhynchus)傳播，豬是增幅宿主。其他蚊傳疾病：登革熱(埃及斑蚊)、瘧疾、茲卡病毒等。HIV不透過蚊子傳播；流感透過飛沫；狂犬病透過動物咬傷。'},
+  {n:86,cat:'virus',text:'下列何種病毒可經由胎盤直接傳染給胎兒(垂直感染)?',opts:['德國麻疹病毒','人類乳突狀瘤病毒','麻疹病毒','單純疱疹病毒第二型'],ans:0,exp:'<strong>德國麻疹病毒(Rubella virus)</strong>是最著名的可穿越胎盤造成先天性感染的病毒。妊娠前三個月感染→先天性德國麻疹症候群(心臟缺陷、白內障、耳聾)。其他可垂直傳播的病毒包括CMV、HSV、HIV、Zika等(TORCH)。'},
+  {n:87,cat:'virus',text:'流行性感冒病毒抗原轉移及抗原漂浮的敘述，何者不正確?',opts:['抗原轉移是基因體產生重新分配現象的結果','抗原轉移可以發生在同種或異種流行性感冒病毒之間','抗原漂浮是1918年流行性感冒大流行的原因','因為發生抗原漂浮，所以每年都必須接種流感疫苗'],ans:2,exp:'1918年的西班牙流感大流行是<strong>抗原「轉移」(shift)</strong>造成的，出現全新的HA亞型(H1N1)，人群幾乎無免疫力。<strong>抗原漂浮(drift)</strong>是HA/NA基因小突變，造成每年季節性流行，是每年需更換疫苗的原因(D正確)。'},
+  {n:88,cat:'virus',text:'HPV四價疫苗含有6、11、16及18型，可以預防下列哪一種疾病?',opts:['尖性濕疣(condyloma acuminata)','生殖道疱疹','乳腺瘤','口唇疱疹'],ans:0,exp:'HPV 6和11型引起<strong>生殖器疣(尖性濕疣/菜花)</strong>；HPV 16和18引起子宮頸癌及其他生殖道癌症。四價疫苗Gardasil可預防這四型，即同時預防<strong>尖性濕疣及子宮頸癌</strong>。生殖道疱疹由HSV引起；Kaposi\'s sarcoma由HHV-8引起。'},
+  {n:89,cat:'fungus',text:'下列有關黴菌的敘述，何者正確?',opts:['可能為好氧菌或厭氧菌','皆為多細胞生物','細胞壁含有幾丁質，可以使細胞壁具彈性','皆具有細胞核及胞器'],ans:3,exp:'黴菌是<strong>真核生物，皆具有細胞核及各種胞器</strong>(粒線體、內質網等)(D正確)。A錯：黴菌大多為好氧菌，厭氧黴菌極少見。B錯：念珠菌等酵母菌是單細胞真菌。C：幾丁質使細胞壁具有<strong>剛性(rigidity)</strong>，不是彈性。'},
+  {n:90,cat:'fungus',text:'抗頭皮屑洗髮精中可能添加ketoconazole，其作用機轉為何?',opts:['Glucan synthase / cell wall','Squalene epoxidase / cell membrane','Demethylase / cell membrane','Microtubule / cell division'],ans:2,exp:'<strong>Ketoconazole</strong>屬Azole類，抑制<strong>14-α demethylase</strong>→阻斷lanosterol轉換為ergosterol→細胞膜ergosterol缺乏→黴菌細胞膜功能喪失。各類抗黴菌藥靶點：Echinocandins→glucan synthase；Terbinafine→Squalene epoxidase；Griseofulvin→microtubule。'},
+  {n:91,cat:'fungus',text:'腳趾間很癢且有許多皮屑，Wood\'s lamp照射後有螢光菌體，下列描述何者正確?',opts:['該致病原可能會分泌酵素，破壞表皮','該致病原只會感染人類，造成俗稱香港腳之病症','該致病原可能會造成表皮、口腔黏膜及器官發炎','只有當人抵抗力下降時會造成感染'],ans:0,exp:'皮癬菌(dermatophytes)感染引起香港腳(足癬)。皮癬菌<strong>會分泌蛋白酶(角蛋白酶)分解角蛋白(keratin)→感染表皮、毛髮、指甲</strong>(A正確)。B錯：皮癬菌也可感染動物(人畜共通)；C錯：皮癬菌只感染含角蛋白的組織，不感染深層組織。'},
+  {n:92,cat:'fungus',text:'有關黃麴毒素的描述，何者正確?',opts:['為黃麴菌產生的一種有毒蛋白質','會造成染色體的點突變，使得鹼基G變成鹼基T(或A)','台灣夏天高溫潮濕，容易使黃麴菌分泌黃麴毒素','將生鮮花生真空保存或是置於冰箱下層，都可以防止黃麴毒素的產生'],ans:2,exp:'黃麴毒素(Aflatoxin)是黃麴菌在<strong>高溫高濕環境</strong>下產生的次級代謝物(非蛋白質，A錯)，台灣夏天有利於黃麴菌生長和產毒(C正確)。Aflatoxin B1與<strong>G→T顛換型突變(transversion)</strong>相關，非G→A(B錯)。D錯：毒素一旦產生，難以用一般方法去除。'},
+  {n:93,cat:'bacteria',text:'關於弧菌(Vibrio)敘述何者為非?',opts:['創傷弧菌是弧菌中特別毒的菌種','若病人胃酸的分泌減少或趨於中性，就容易被弧菌感染','創傷弧菌可能造成敗血症','霍亂弧菌所產生的霍亂毒素主要作用是抑制宿主細胞蛋白質表現'],ans:3,exp:'<strong>霍亂毒素</strong>的作用：ADP核糖化Gs蛋白→持續活化腺苷酸環化酶→<strong>cAMP大量升高</strong>→氯離子大量分泌→等滲透性腸液大量流出→米湯樣腹瀉。<strong>並非抑制蛋白質表現</strong>（抑制蛋白質合成是Shiga toxin的作用）。'},
+  {n:94,cat:'bacteria',text:'造成梅毒(syphilis)感染的病原體為下列何者?',opts:['Borrelia(包式螺旋體)','Treponema(密螺旋體)','Rickettsia(立克次體)','Leptospira(鉤端螺旋體)'],ans:1,exp:'梅毒由<strong>Treponema pallidum(蒼白密螺旋體)</strong>引起。密螺旋體分三種：T. pallidum(梅毒)、T. pertenue(雅司病)、T. carateum(品他病)。Borrelia→萊姆病/回歸熱；Leptospira→鉤端螺旋體病(Weil\'s disease)。'},
+  {n:95,cat:'bacteria',text:'下疳(chancre)是哪一時期梅毒感染的特徵?',opts:['初期梅毒(Primary syphilis)','第二期梅毒','末期梅毒','潛伏期'],ans:0,exp:'<strong>初期梅毒(Primary syphilis)</strong>：感染後2~3週，在接觸部位出現<strong>無痛性下疳(chancre，硬性下疳)</strong>，是富含螺旋體的潰瘍，自然癒合後進入第二期。第二期：皮膚疹(包括手掌腳底)；末期：心臟、神經受損。'},
+  {n:96,cat:'bacteria',text:'關於黴漿菌(Mycoplasma)敘述何者為非?',opts:['可以獨立生存的最小細菌','具有很厚的富含脂質的細胞壁','細胞膜有固醇','可能導致非典型肺炎'],ans:1,exp:'<strong>Mycoplasma沒有細胞壁！</strong>這是黴漿菌最重要的特徵，也是其對β-lactam抗生素天然抵抗的原因。細胞膜含固醇(sterol)增加膜的穩定性（其他細菌沒有）。因此B「具有很厚的細胞壁」完全錯誤。'},
+  {n:97,cat:'bacteria',text:'對大部分立克次體而言人是意外宿主，但下列何種立克次體可藉由人蝨在人與人之間傳播?',opts:['Rickettsia rickettsii','Rickettsia prowazekii','Rickettsia akari','Rickettsia typhi'],ans:1,exp:'<strong>R. prowazekii</strong>引起流行性斑疹傷寒(epidemic typhus)，由人蝨(Pediculus humanus)傳播，<strong>人是主要儲存宿主</strong>。人→人蝨→人的傳播鏈。其他立克次體的主要宿主是動物(蜱、蟎、鼠等)，人是意外宿主。'},
+  {n:98,cat:'bacteria',text:'Chlamydophila psittaci(鸚鵡披衣菌)主要透過何種方式傳播?',opts:['吸入鳥禽排泄物或分泌物','人與人傳播','吃到污染的禽類','皮膚感染'],ans:0,exp:'鸚鵡披衣菌(C. psittaci)主要透過<strong>吸入受感染鳥禽的乾燥糞便、分泌物或羽毛粉塵</strong>傳播，引起鸚鵡熱(psittacosis/ornithosis)，可引起非典型肺炎。'},
+  {n:99,cat:'bacteria',text:'關於嗜肺性退伍軍人菌(Legionella pneumophila)敘述何者正確?',opts:['龐提亞克熱須以抗生素治療','退伍軍人症不需要抗生素治療，是自限性疾病','容易人傳人','免疫不全、有慢性肺部疾病的人為高危險群'],ans:3,exp:'退伍軍人菌感染<strong>高危險群：老年人、吸菸者、免疫不全者、慢性肺病患者</strong>(D正確)。Legionella從冷卻水塔、空調系統吸入感染，<strong>不人傳人</strong>(C錯)。退伍軍人症是嚴重肺炎，<strong>需抗生素治療</strong>(Azithromycin, fluoroquinolones)(B錯)；龐提亞克熱才是自限性(A錯)。'},
+  {n:100,cat:'virus',text:'下列有關死毒疫苗的敘述，何者錯誤?',opts:['可以以福馬林殺死病毒來製備','引起的免疫反應一般較活毒減毒疫苗為弱','死病毒疫苗可用口服方式接種','其安全性一般較活毒減毒疫苗為高'],ans:2,exp:'<strong>死毒(不活化)疫苗通常需要注射，不能口服！</strong>因為口服後在消化道中容易被破壞，且死病毒無法在腸黏膜中複製，無法刺激足夠的黏膜免疫。Salk小兒麻痺疫苗(IPV)是注射型；Sabin疫苗是活毒口服型。'},
+  {n:101,cat:'general',text:'哪一組的急性期/恢復期抗體效價結果可以判斷病人為近期感染?',opts:['20倍 / 20倍','40倍 / 80倍','80倍 / 640倍','80倍 / 20倍'],ans:2,exp:'近期感染的判斷標準：<strong>恢復期抗體效價比急性期上升4倍(或4倍以上)</strong>。C選項：80→640，是<strong>8倍上升</strong>(640/80=8)，符合近期感染。B選項：40→80，只有2倍，不夠。D選項：效價下降，代表已康復一段時間。'},
+  {n:102,cat:'virus',text:'流感病毒約每10年有較大變異引起世界性大流行，此現象與何者最有關?',opts:['流感病毒為單股RNA病毒，RNA複製時較易發生突變','流感病毒在患者呼吸道繁殖很快，突變率相對增加','流感病毒核酸RNA分為八段，較易產生基因重組','流感病毒會抑制患者的免疫力而大量繁殖'],ans:2,exp:'流感病毒的<strong>八段RNA基因組</strong>可以在同一細胞內發生<strong>「基因重配(reassortment)」，即「抗原轉移(antigenic shift)」</strong>，產生全新的HA/NA組合，人群缺乏免疫力→大流行。這是分段基因組的獨特特性。'},
+  {n:103,cat:'virus',text:'在台灣已產生rimantadine-resistant流感病毒株，此病毒株應為?',opts:['Influenza A virus','Influenza B virus','Influenza C virus','Influenza D virus'],ans:0,exp:'Amantadine和Rimantadine<strong>只對流感A型有效</strong>，作用是阻斷M2離子通道。因此對Rimantadine產生抗藥性的只可能是<strong>流感A型</strong>病毒。流感B型沒有M2蛋白，天然對這類藥物無效；流感C型和D型也不受影響。'},
+  {n:104,cat:'virus',text:'台灣每年夏天有登革熱流行，對於登革病毒的敘述，何者錯誤?',opts:['斑蚊為主要傳播媒介','患者會有發熱、發冷、頭痛、背痛等類似流感之症狀','二次感染同型病毒，易發生出血性登革熱','登革熱的患者可作為保毒宿主，提供病毒給蚊子'],ans:2,exp:'出血性登革熱(DHF)發生在第二次感染<strong>「不同」血清型</strong>的登革病毒時，原有的異型抗體反而增強病毒感染力(<strong>antibody-dependent enhancement, ADE</strong>)。感染相同血清型只有同型保護，不會造成DHF。'},
+  {n:105,cat:'hepatitis',text:'有關肝炎之敘述，下列何者錯誤?',opts:['A型肝炎主要經由糞口為傳染途徑','完整的D型肝炎病毒為Dane particle','C型肝炎可以經由針頭傳染或非針頭傳染方式感染','D型肝炎病毒之傳染需要B型肝炎病毒之協助'],ans:1,exp:'<strong>Dane particle(丹氏顆粒)是完整的B型肝炎病毒顆粒</strong>（含HBsAg外膜、HBcAg核心、dsDNA及DNA聚合酶），不是D型肝炎病毒。D型肝炎病毒(delta virus)需要HBV協助(D正確)，但其完整病毒稱為delta virion，非Dane particle。'},
+  {n:106,cat:'virus',text:'如何鑑別腸病毒(enterovirus)與鼻病毒(rhinovirus)?',opts:['腸病毒對脂溶性具抗性，而鼻病毒則呈敏感性','腸病毒對酸性環境具抗性，而鼻病毒在pH6以下不穩定','腸病毒在50度C時很穩定，鼻病毒在此溫度下失去活性','腸病毒感染人體後潛伏期很長，而鼻病毒很短'],ans:1,exp:'腸病毒和鼻病毒的主要鑑別：<strong>酸穩定性</strong>。腸病毒在<strong>pH 3~9穩定</strong>，可在胃腸道存活；鼻病毒在<strong>pH<6不穩定</strong>。兩者均無套膜（對脂溶劑不敏感，A錯）；最適複製溫度：腸病毒37°C，鼻病毒33°C(鼻腔溫度)。'},
+  {n:107,cat:'virus',text:'下列對於輪狀病毒(Rotavirus)的敘述，何者錯誤?',opts:['基因體為雙股RNA(dsRNA)','具雙層蛋白衣','以糞口感染為主','對乙醚具感受性(敏感)'],ans:3,exp:'輪狀病毒<strong>沒有套膜</strong>，因此對乙醚(ether)等脂溶劑<strong>有抵抗性(resistant)</strong>，而非敏感性。輪狀病毒特徵：dsRNA(分11段)、雙層蛋白衣(double-layered capsid)、輪狀外觀、糞口傳播，是嬰幼兒腸胃炎最常見原因。'},
+  {n:108,cat:'virus',text:'妊娠前3個月期間感染下列何種病毒，胎兒將會有高先天性畸形風險?',opts:['麻疹病毒','德國麻疹病毒','單純疱疹病毒第二型','人類乳突瘤狀病毒'],ans:1,exp:'<strong>德國麻疹病毒(Rubella virus)</strong>是最重要的致畸胎病毒之一。妊娠前3個月感染→<strong>先天性德國麻疹症候群</strong>：心臟缺陷(PDA、VSD)、白內障、耳聾(三聯征)、小頭症、智能障礙等。孕前接種MMR疫苗可預防。'},
+  {n:109,cat:'virus',text:'下列何種病毒主要是經由呼吸道飛沫傳播?',opts:['小兒麻痺病毒','乳突狀瘤病毒','登革病毒','水痘-帶狀疱疹病毒'],ans:3,exp:'<strong>水痘-帶狀疱疹病毒(VZV)</strong>主要透過飛沫和接觸傳播，是高度傳染性疾病，還可經空氣傳播。小兒麻痺→糞口；乳突瘤病毒→接觸/性行為；登革病毒→蚊子叮咬。'},
+  {n:110,cat:'virus',text:'手足口病是何種病毒所引起的?',opts:['克沙奇病毒(Coxsackievirus)','巨細胞病毒(CMV)','EB病毒','水痘帶狀疱疹病毒'],ans:0,exp:'手足口病(HFMD)主要由<strong>A群克沙奇病毒(尤其Coxsackievirus A16)和腸病毒71型(EV71)</strong>引起。特徵：手掌、腳掌、口腔的水疱疹，EV71可引起嚴重神經系統併發症。'},
+  {n:111,cat:'virus',text:'目前的子宮頸癌疫苗，除了預防子宮頸癌以外，還可以預防下列哪一種疾病?',opts:['尖性濕疣(condyloma acuminata)','生殖道疱疹','卡波西肉瘤','單純疣'],ans:0,exp:'四價HPV疫苗(Gardasil)含HPV 6、11、16、18型：HPV 6和11→<strong>生殖器疣(尖性濕疣/菜花)</strong>；HPV 16和18→子宮頸癌。可同時預防子宮頸癌和尖性濕疣。生殖道疱疹由HSV引起；Kaposi\'s sarcoma由HHV-8引起。'},
+  {n:112,cat:'virus',text:'單純鳥苷(Acyclovir)是臨床上治療何種病毒之藥物?',opts:['單純疱疹病毒(HSV)','痘病毒','B型肝炎病毒','人類免疫缺乏病毒(HIV)'],ans:0,exp:'<strong>Acyclovir</strong>是鳥苷類似物，需被<strong>病毒的Thymidine kinase(TK)磷酸化</strong>才有活性，因此具有病毒專一性。用於HSV-1、HSV-2和VZV感染的治療。對CMV效果差(CMV沒有TK)，CMV用Ganciclovir。'},
+  {n:113,cat:'fungus',text:'黴菌與人類細胞在結構上最大的差別為何?',opts:['細胞壁','細胞膜','細胞核','粒線體'],ans:0,exp:'黴菌具有<strong>細胞壁</strong>(主要成分是幾丁質和β-1,3-glucan)，而<strong>人類細胞沒有細胞壁</strong>。這是抗黴菌藥物選擇性的基礎。細胞膜雖有差異(ergosterol vs cholesterol)，但最大的結構差別是細胞壁的有無。'},
+  {n:114,cat:'fungus',text:'下列何種不是常見感染皮膚、毛髮或指甲的表皮黴菌?',opts:['隱球菌屬(Cryptococcus)','表皮癬菌屬(Epidermophyton)','小芽孢菌屬(Microsporum)','毛髮癬菌屬(Trichophyton)'],ans:0,exp:'皮膚癬菌(Dermatophytes)包括三屬：<strong>Epidermophyton、Microsporum、Trichophyton</strong>，感染角蛋白化的皮膚、毛髮、指甲。<strong>隱球菌(Cryptococcus)是酵母菌</strong>，主要引起系統性感染(肺炎、腦膜炎)，不是皮膚黴菌。'}
+];
+
+const catLabels = {virus:'病毒',bacteria:'細菌',fungus:'黴菌',hiv:'HIV',hepatitis:'肝炎',general:'通論'};
+const catCls = {virus:'cat-virus',bacteria:'cat-bacteria',fungus:'cat-fungus',hiv:'cat-hiv',hepatitis:'cat-hepatitis',general:'cat-general'};
+
+let filter = 'all';
+let answered = {};
+let openQ = null;
+
+function setFilter(f, btn) {
+  filter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function getFiltered() {
+  const s = document.getElementById('search').value.toLowerCase();
+  return Q.filter(q => {
+    if (filter !== 'all' && q.cat !== filter) return false;
+    if (s && !q.text.toLowerCase().includes(s) && !q.exp.toLowerCase().includes(s) && !q.opts.join(' ').toLowerCase().includes(s)) return false;
+    return true;
+  });
+}
+
+function render() {
+  const list = getFiltered();
+  const total = Object.keys(answered).filter(k => !k.includes('_')).length;
+  const correct = Object.keys(answered).filter(k => !k.includes('_') && answered[k] === 'correct').length;
+  const wrong = total - correct;
+  document.getElementById('s-total').textContent = list.length;
+  document.getElementById('s-correct').textContent = correct;
+  document.getElementById('s-wrong').textContent = wrong;
+  const pct = total > 0 ? Math.round(total / Q.length * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = total > 0 ? `已作答 ${total} / ${Q.length} 題` : '尚未作答';
+  document.getElementById('progress-pct').textContent = total > 0 ? `正確率 ${Math.round(correct/total*100)}%` : '';
+
+  const el = document.getElementById('q-list');
+  if (list.length === 0) {
+    el.innerHTML = '<div class="no-results">找不到符合條件的題目 🔍</div>';
+    return;
+  }
+
+  el.innerHTML = list.map(q => {
+    const state = answered[q.n];
+    const isOpen = openQ === q.n;
+    let cardCls = 'q-card';
+    if (state === 'correct') cardCls += ' correct';
+    if (state === 'wrong') cardCls += ' wrong';
+
+    const optsHtml = q.opts.map((o, i) => {
+      let cls = 'opt';
+      if (state) {
+        if (i === q.ans) cls += ' correct-ans';
+        else if (answered[q.n + '_sel'] === i) cls += ' wrong-sel';
+      }
+      return `<button class="${cls}" onclick="selectAns(${q.n},${i})" ${state ? 'disabled' : ''}>${String.fromCharCode(65+i)}. ${o}</button>`;
+    }).join('');
+
+    return `<div class="${cardCls}" id="qc${q.n}">
+      <div class="q-header" onclick="toggleQ(${q.n})">
+        <span class="q-num">${q.n}.</span>
+        <span class="q-text">${q.text}</span>
+        <span class="cat-badge ${catCls[q.cat]}">${catLabels[q.cat]}</span>
+        <span class="chevron ${isOpen ? 'open' : ''}">▾</span>
+      </div>
+      <div class="q-body ${isOpen ? 'open' : ''}">
+        <div class="opts">${optsHtml}</div>
+        ${state ? `<div class="explanation"><strong>解析：</strong>${q.exp}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleQ(n) {
+  openQ = (openQ === n) ? null : n;
+  render();
+}
+
+function selectAns(n, i) {
+  if (answered[n]) return;
+  const q = Q.find(q => q.n === n);
+  answered[n] = i === q.ans ? 'correct' : 'wrong';
+  answered[n + '_sel'] = i;
+  openQ = n;
+  render();
+  setTimeout(() => {
+    const card = document.getElementById('qc' + n);
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
+}
+
+render();
+</script>
+</body>
+</html>
